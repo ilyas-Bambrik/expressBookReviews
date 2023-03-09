@@ -20,7 +20,7 @@ public_users.get('/',function (req, res) {
   
   new Promise((resolve,reject)=>{
     resolve(JSON.stringify(books,null,2))
-  }).then(result=>res.status(200).json(result))
+  }).then(result=>res.status(200).send(result))
 });
 
 // Get book details based on ISBN
@@ -30,7 +30,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     if(!books[isbn])
       resolve( {message:`Book with ISBN ${isbn} not found.`})
     resolve(books[isbn])
-  }).then(response=>res.status(200).json(JSON.stringify(response,null,2)))
+  }).then(response=>res.status(200).send(JSON.stringify(response,null,2)))
 
  });
   
@@ -47,7 +47,7 @@ public_users.get('/author/:author',function (req, res) {
     if(!authorBooks.length)
         resolve({message:`No books from author "${athorName}" were found.`})
     resolve(JSON.stringify(authorBooks,null,2))
-  }).then(response=>res.status(200).json(response))
+  }).then(response=>res.status(200).send(response))
 });
 
 // Get all books based on title
@@ -63,7 +63,7 @@ public_users.get('/title/:title',function (req, res) {
     if(!correspondingBooks.length)
         resolve({message:`No books with title "${bookTitle}" were found.`})
     resolve(correspondingBooks)
-}).then(result=>res.status(200).json(JSON.stringify(result,null,2)))
+}).then(result=>res.status(200).send(JSON.stringify(result,null,2)))
 
 });
 
@@ -73,9 +73,9 @@ public_users.get('/review/:isbn',function (req, res) {
   if(!books[isbn])
       return res.status(404).json({message:`Book with ISBN ${isbn} not found.`})
   if(!Object.keys(books[isbn].reviews).length)
-      return res.status(200).json(JSON.stringify({message:`No reviews for the book with ISBN ${isbn}.`,reviews:books[isbn].reviews},null,2));
+      return res.status(200).send(JSON.stringify({message:`No reviews for the book with ISBN ${isbn}.`,reviews:books[isbn].reviews},null,2));
 
-  return res.status(200).json(JSON.stringify(books[isbn].reviews,null,2));
+  return res.status(200).send(JSON.stringify(books[isbn].reviews,null,2));
  });
 
 module.exports.general = public_users;
